@@ -52,6 +52,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
+          with:
+    args: >
+      -Dsonar.projectKey=Aarthi2324_Project-1
+      -Dsonar.organization=aarthi2324
+      -Dsonar.sources=src
 
   secrets:
     name: GitLeaks
