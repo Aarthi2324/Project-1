@@ -2,7 +2,7 @@ name: CI/CD frontend
 
 on:
   push:
-    branches: [main, master, dev]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
