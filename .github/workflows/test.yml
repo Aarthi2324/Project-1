@@ -24,8 +24,8 @@ jobs:
           role-session-name: gh-oidc-test
           aws-region: ${{ env.AWS_REGION }}
 
-      #- #name: Who am I
-        #run: aws sts get-caller-identity
+      - name: Who am I
+        run: aws sts get-caller-identity
 
       #- #name: Setup kubeconfig
         #run: |
