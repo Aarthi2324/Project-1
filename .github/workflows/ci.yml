@@ -164,16 +164,27 @@ jobs:
         id: creds
         run: aws eks update-kubeconfig --region "$AWS_REGION" --name "$EKS_CLUSTER"
 
-      - name: Deploy
-        id: deploy
-        run: |
-          grep -q IMAGE_PLACEHOLDER k8s/deployment.yaml || {
-            echo "::error::IMAGE_PLACEHOLDER not found in k8s/deployment.yaml - the image would never be substituted"
-            exit 1
-          }
+      
+      - name: Create Kubernetes namespace
+  run: |
+    kubectl create namespace "$K8S_NAMESPACE" \
+      --dry-run=client -o yaml | kubectl apply -f -
 
-          kubectl apply -n "$K8S_NAMESPACE" -f k8s/configmap.yaml -f k8s/service.yaml
+- name: Deploy
+  id: deploy
+  run: |
+    grep -q IMAGE_PLACEHOLDER k8s/deployment.yaml || {
+      echo "::error::IMAGE_PLACEHOLDER not found in k8s/deployment.yaml - the image would never be substituted"
+      exit 1
+    }
 
-          sed "s|IMAGE_PLACEHOLDER|$IMAGE|" k8s/deployment.yaml | kubectl apply -n "$K8S_NAMESPACE" -f -
+    kubectl apply -n "$K8S_NAMESPACE" \
+      -f k8s/configmap.yaml \
+      -f k8s/service.yaml
 
-          kubectl rollout status deployment/frontend -n "$K8S_NAMESPACE" --timeout=5m
+    sed "s|IMAGE_PLACEHOLDER|$IMAGE|" k8s/deployment.yaml | \
+      kubectl apply -n "$K8S_NAMESPACE" -f -
+
+    kubectl rollout status deployment/frontend \
+      -n "$K8S_NAMESPACE" \
+      --timeout=5m
