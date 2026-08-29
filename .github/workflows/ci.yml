@@ -47,16 +47,16 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: SonarQube Scan
+     - name: SonarQube Scan
   uses: SonarSource/sonarqube-scan-action@v8.2.1
-  env:
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    SONAR_HOST_URL: https://sonarcloud.io
   with:
     args: >
       -Dsonar.projectKey=Aarthi2324_Project-1
       -Dsonar.organization=aarthi2324
       -Dsonar.sources=src
+  env:
+    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    SONAR_HOST_URL: https://sonarcloud.io
 
   secrets:
     name: GitLeaks
