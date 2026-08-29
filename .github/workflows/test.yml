@@ -17,20 +17,14 @@ env:
 jobs:
   verify:
     runs-on: ubuntu-latest
-
-    environment: production
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+      - uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::268140506109:role/YOUR_ROLE_NAME
+          role-to-assume: arn:aws:iam::268140506109:role/my-project
+          role-session-name: gh-oidc-test
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Verify AWS
+      - name: Who am I
         run: aws sts get-caller-identity
 
       - name: Setup kubeconfig
