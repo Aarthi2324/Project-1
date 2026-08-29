@@ -15,7 +15,7 @@ permissions:
 
 env:
   AWS_REGION: ap-south-1
-  EKS_CLUSTER: eka-cluster
+  EKS_CLUSTER: eks-cluster
   K8S_NAMESPACE: demo
   ECR_REPO: eks-cluster-dev-platform
 
@@ -33,7 +33,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: npm
 
       - name: Install
         run: npm ci
