@@ -24,10 +24,6 @@ jobs:
     name: React app
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    # This sets the default directory for all 'run' commands below
-    defaults:
-      run:
-        working-directory: ./frontend # 👈 Replace with your actual folder name
 
     steps:
       - uses: actions/checkout@v4
@@ -37,11 +33,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "" # 👈 Add this exact line
-
+          cache: npm
 
       - name: Install
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
